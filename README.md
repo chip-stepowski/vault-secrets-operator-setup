@@ -7,3 +7,4 @@ This guide assumes the following:
 
 Steps
 1. configure event notifications
+<code>kubectl exec -it vault-0 -- /bin/sh</code>
