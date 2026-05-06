@@ -7,4 +7,14 @@ This guide assumes the following:
 
 Steps
 1. configure event notifications
-<code>kubectl exec -it vault-0 -- /bin/sh</code>
+<code>
+
+# exec into the leader pod
+kubectl exec -it vault-0 -- /bin/sh
+
+# enable a kv-v2 engine 
+vault secrets enable -path=secret kv-v2
+
+# enable k8s auth method
+vault auth enable kubernetes
+</code>
