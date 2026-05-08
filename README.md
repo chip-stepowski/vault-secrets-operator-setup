@@ -10,7 +10,7 @@ This guide assumes the following:
 
 **Exec into the leader pod:** 
 ```bash
-kubectl exec -it vault-0 -- /bin/sh
+kubectl exec -it $LEADER_POD -- /bin/sh
 ```
 
 **Enable a kv-v2 engine and add a secret:**
@@ -71,6 +71,9 @@ helm install vault-secrets-operator hashicorp/vault-secrets-operator \
 ```
 
 ### 5. Configure the VSO CRD, create the VSO service account, and apply the manifest
+
+**Configure the VSO CRD:**
+
 ```yaml
 ---
 # 1. Define how to connect to Vault
@@ -135,7 +138,7 @@ secretMAC: 9BxsHVFLe5oKGp8lKRd9DqZpRqUoHwYWv5jzKPtTtGc=
 **Update the secret:**
 
 ```bash
-k exec vault-0 -- vault kv put secret/repro-secret unique_id="$(date +%s)
+k exec $LEADER_POD -- vault kv put secret/repro-secret unique_id="$(date +%s)
 ```
 
 **Read the static secret again to check the secretMAC has updated successfully:**
@@ -166,3 +169,5 @@ status:
   lastGeneration: 3
   secretMAC: CSC05+8dQBh+88LtQyBx0+zZb0VtcFlhDoPVd5hsYV0=
 ```
+
+### If everything shows as "Synced" and the secretMAC has changed, VSO is working as expected. Congrats!
